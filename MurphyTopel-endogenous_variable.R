@@ -10,7 +10,6 @@ head(dados)
 dim(dados)
 
 # DEA model
-
 input <- dados[, c('lxterra', 'lxtrab', 'lxresto') ]
 output <- dados[,'ly']
 
@@ -28,7 +27,6 @@ Efi_out <- ( 1 / e_vrs_out0$eff) %>% as.numeric()
 dados <- cbind(Efi_out, dados)
 
 # Without Endogeneity
-
 dados$regiao <- relevel(dados$regiao, ref = '5')
 
 mu.formula0    = Efi_out ~ financi + social + demo + ambi +  ica460s + ginitotal
@@ -47,7 +45,6 @@ WithoutEnd <-  gamlss(formula = mu.formula0,
 summary(WithoutEnd)
 
 # Endogenous Variable
-
 End = financi ~ 
   lxterra + lxtrab + lxresto +
   social + demo + ambi + ica460s + ginitotal
@@ -59,11 +56,10 @@ summary(reg)$coef %>% round(4)
 coef_beta <- coef(reg)
 fin_pred <- predict(reg, type="response")
 
-## it will be used in Murphy and Topel
+# it will be used in Murphy and Topel
 mmm <- model.frame(End, dados)
 X_end <- model.matrix(End, mmm)
 kd <- dim(X_end)[2]
-##
 
 # Beta regression inflated one with the endogenous credit variable.
 dadosA <- cbind(dados, fin_pred)
