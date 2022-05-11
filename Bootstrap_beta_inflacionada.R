@@ -6,12 +6,10 @@ library(gamlss)
 library(betareg)
 library(tidyverse)
 
-### Semente 
-set.seed(2005, kind = "Marsaglia-Multicarry")
 
 ##### Directory
 ## setwd(choose.dir())
-setwd("C:\\Users\\Bruno\\Dropbox\\Bruno Artigo\\Bruno\\codes")
+setwd("G:\\Meu Drive\\GitHub\\Dissertation")
 getwd()
 
 ### data 
@@ -71,8 +69,6 @@ dadosA <- model.frame(formula, dadosO)
 
 New_data <- dadosA
 
-i <- 0
-
 {
   boot_betaflacionada <- function(data, indices){
     
@@ -109,8 +105,11 @@ i <- 0
 }
 
 library(boot)
-duncan.boot <- boot(New_data, boot_betaflacionada, R = 2000)
-
+### Semente 
+set.seed(2005)
+i <- 0
+duncan.boot <- boot(New_data, boot_betaflacionada, R = 20)
+duncan.boot
 
 
 
