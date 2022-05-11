@@ -9,7 +9,7 @@ load("dados.RData")
 head(dados)
 dim(dados)
 
-# DEA models
+# DEA model
 
 input <- dados[, c('lxterra', 'lxtrab', 'lxresto') ]
 output <- dados[,'ly']
@@ -143,14 +143,14 @@ parms <- z <-  c(b_mu, b_alpha, b_phi)
     b_alfa_eta  <- z[(k0 + 1):k1]
     b_phi_eta <- z[(k1 + 1):kk]
     
-    ###### Parte discreta
+    # Discreet part
     alfa_est  <- as.vector(X_alpha   %*%   b_alfa_eta)
     alpha <- pnorm(alfa_est)
     
     lalpha <- (yy/alpha -  (1 - yy)/ (1 - alpha))*dnorm(alfa_est)
     Balpha <- X_alpha*as.vector(lalpha)
     
-    ###### Parte contínua
+    # Continuous part
     
     y_eta     <- as.vector(mu_X    %*%   betas)
     phi_eta   <- as.vector(phi_X   %*%   b_phi_eta)
@@ -184,7 +184,7 @@ parms <- z <-  c(b_mu, b_alpha, b_phi)
     
     prob_fin <- plogis(Xreg %*% par_fin)
     
-    ###### Parte discreta
+    # Discreet part
     alfa_eta  <- as.vector(X_alpha   %*%   b_alfa)
     mu_eta     <- as.vector(mu_X    %*%   b_mu)
     phi_eta   <- as.vector(phi_X   %*%   b_phi)
@@ -194,7 +194,7 @@ parms <- z <-  c(b_mu, b_alpha, b_phi)
     alpha <- pnorm(alfa_eta)
     q_mu  <- pmax((1 - mu), 1e-150)
     
-    ############ Verossimilhança
+    # Likelihood
     mu_a <- digamma(mu*phi) - digamma(q_mu*phi)
     y_a  <- log(y_mu/(1 - y_mu))
     
@@ -241,7 +241,7 @@ colSums(G_fin)
 V1 <- vcov(reg)
 V2 <- vcov(WithEnd)
 
-#### Corrigido
+# Adjusted
 
 C <- t(G22) %*% G21
 R <- t(G22) %*% G11
@@ -250,7 +250,7 @@ V33 <- ((C %*% V1 %*% t(C)) - (R %*% V1 %*% t(C)) - (C %*% V1 %*% t(R)))
 
 V2_corrigida <- V2 + V2 %*% V33 %*% V2
 
-## Teste Hausman
+# Hausman Test
 
 d <-  coef_WithEnd[1:7] - coef_WithoutEnd[1:7]
 
@@ -260,7 +260,7 @@ Teste <- t(d) %*% H %*% d
 
 1 - pchisq(as.numeric(Teste), 7)
 
-#############
+#
 names0 <- colnames(V2_corrigida)
 EP2 <- sqrt(diag(V2))
 
