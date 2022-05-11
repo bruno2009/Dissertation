@@ -8,7 +8,7 @@ setwd(choose.dir())
 getwd()
 
 # data 
-load("dados.RData")
+load("Data.RData")
 head(dados)
 dim(dados)
 
@@ -90,7 +90,7 @@ New_data$regiao <- relevel(New_data$regiao, ref = '5')
 }
 
 library(boot)
-### Semente 
+### seed
 set.seed(2005)
 i <- 0
 duncan.boot <- boot(New_data, boot_betaflacionada, R = 2000)
