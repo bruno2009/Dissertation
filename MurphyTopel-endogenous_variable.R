@@ -235,7 +235,7 @@ colSums(G21)
 fin <- dados$financi
 
 G11 <- G1(par_fin = coef_beta, y = fin, Xreg = X_end)
-colSums(G_fin)
+colSums(G11)
 
 V1 <- vcov(reg)
 V2 <- vcov(WithEnd)

@@ -95,9 +95,14 @@ set.seed(2005)
 i <- 0
 duncan.boot <- boot(New_data, boot_betaflacionada, R = 2000)
 duncan.boot
-duncan.boot[[1]] %>% cbind() %>% round(5)
+duncan.boot[[1]] %>% cbind() %>% round(4)
 
+#bias:
+vies_boot <- ( apply(duncan.boot$t, 2, mean) - duncan.boot$t0 ) %>% cbind() %>% round(4)
+#se: 
+sd_boot <- apply(duncan.boot$t, 2, sd) %>% cbind() %>% round(4)
 
+cbind(vies_boot, sd_boot)
 
 
 
